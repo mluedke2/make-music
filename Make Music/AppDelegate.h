@@ -10,7 +10,34 @@
 
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    
+    NSArray *locationList;
+    NSArray *venueList;
+    NSArray *performanceList;
+    NSArray *relevantPerformanceList;
+    NSArray *artistList;
+    
+    NSDictionary *currentLocation;
+    NSDictionary *currentVenue;
+    
+    NSString *genreFilter;
+    
+    NSString *nibAddOn;
+    
+}
+
+@property (strong, nonatomic) NSArray *locationList;
+@property (strong, nonatomic) NSArray *venueList;
+@property (strong, nonatomic) NSArray *performanceList;
+@property (strong, nonatomic) NSArray *relevantPerformanceList;
+@property (strong, nonatomic) NSArray *artistList;
+
+@property (strong, nonatomic) NSDictionary *currentLocation;
+@property (strong, nonatomic) NSDictionary *currentVenue;
+
+@property (strong, nonatomic) NSString *genreFilter;
+@property (strong, nonatomic) NSString *nibAddOn;
 
 @property (strong, nonatomic) UIWindow *window;
 

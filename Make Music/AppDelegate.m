@@ -7,23 +7,97 @@
 //
 
 #import "AppDelegate.h"
-
 #import "ViewController.h"
+#import "MapViewController.h"
 
 @implementation AppDelegate
+@synthesize locationList, venueList, currentLocation, currentVenue, genreFilter, performanceList, artistList, nibAddOn, relevantPerformanceList;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
-    } else {
-        self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
-    }
-    self.window.rootViewController = self.viewController;
+    
+    [self initializeVariables];
+    
+    ViewController *baseViewController = [[ViewController alloc] initWithNibName:[NSString stringWithFormat:@"ViewController%@", self.nibAddOn] bundle:nil];
+
+    UINavigationController *navigator = [[UINavigationController alloc] initWithRootViewController:baseViewController];
+    
+    self.window.rootViewController = navigator;
+    
+    NSLog(@"venues count: %i", self.venueList.count);
+    
+    if (self.venueList.count > 0) {
+        // move on to the navigation controller
+        
+        NSLog(@"trying to move on!");
+        
+        MapViewController *mapViewController = [[MapViewController alloc] initWithNibName:[NSString stringWithFormat:@"MapViewController%@", self.nibAddOn] bundle:nil];
+        
+        [navigator pushViewController:mapViewController animated:NO];
+        
+    } 
+
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+
+- (void)initializeVariables {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    self.locationList = [NSArray array];
+    self.venueList = [NSArray array];
+    self.performanceList = [NSArray array];
+    self.artistList = [NSArray array];
+    
+    self.currentVenue = [NSDictionary dictionary];
+    self.currentLocation = [NSDictionary dictionary];
+    self.genreFilter = @"All";
+    
+    if ([defaults objectForKey:@"locationList"]) {
+        self.locationList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"locationList"]];
+    }
+    
+    if ([defaults objectForKey:@"currentLocation"]) {
+        self.currentLocation = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"currentLocation"]];
+    }
+    
+    if ([defaults objectForKey:@"performanceList"]) {
+        self.performanceList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"performanceList"]];
+    }
+    
+    NSLog(@"about to test for venues");
+    if ([NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]]) {
+        NSLog(@"there are venues saved");
+        self.venueList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]];
+        NSLog(@"there are venues saved: %i", self.venueList.count);
+        NSLog(@"there are venues saved: %i", [[NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]] count]);
+    }
+    
+    if ([defaults objectForKey:@"artistList"]) {
+        self.artistList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"artistList"]];
+    }
+    
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height == 568)
+        {
+            // iPhone 5
+            nibAddOn = @"";
+        }
+        else {
+            // not iPhone 5
+            nibAddOn = @"_35";
+            
+        }
+    }
+    
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
