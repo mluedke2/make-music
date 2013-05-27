@@ -67,6 +67,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.locationTableView.separatorColor = [UIColor darkGrayColor];
     progressLabel.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
+    progressHolder.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+    progressShower.progressTintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     UIImage *image = [UIImage imageNamed:@"CitySelectHeader.png"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
