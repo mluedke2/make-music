@@ -202,22 +202,24 @@
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"id = %@", [[performanceList objectAtIndex:indexPath.row] objectForKey:@"artist_id"]];
     NSDictionary *currentArtist = [[appDelegate.artistList filteredArrayUsingPredicate:pred] lastObject];
         
-    UILabel *artistNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 180, 20)];
+    UILabel *artistNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 10, 180, 40)];
     artistNameLabel.text = [currentArtist objectForKey:@"groupname"];
     artistNameLabel.font = [UIFont fontWithName: @"Arial-BoldMT" size:16.0];
     artistNameLabel.textColor = [UIColor darkGrayColor];
     artistNameLabel.backgroundColor = [UIColor clearColor];
     artistNameLabel.adjustsFontSizeToFitWidth = YES;
-    artistNameLabel.minimumFontSize = 12.0;
+    artistNameLabel.minimumFontSize = 8.0;
+    artistNameLabel.lineBreakMode = UILineBreakModeCharacterWrap;
+    //artistNameLabel.numberOfLines = 2;
     [cell addSubview:artistNameLabel];
     
-    UILabel *startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 40, 180, 20)];
+    UILabel *startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 50, 180, 20)];
     startTimeLabel.font = [UIFont fontWithName: @"ArialMT" size:14.0];
     startTimeLabel.textColor = [UIColor darkGrayColor];
     startTimeLabel.backgroundColor = [UIColor clearColor];
     [cell addSubview:startTimeLabel];
     
-    UILabel *artistGenreLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 56, 180, 20)];
+    UILabel *artistGenreLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 66, 180, 20)];
     artistGenreLabel.text = [currentArtist objectForKey:@"genres"];
     artistGenreLabel.font = [UIFont fontWithName: @"ArialMT" size:14.0];
     artistGenreLabel.textColor = [UIColor darkGrayColor];

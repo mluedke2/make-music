@@ -69,9 +69,15 @@
     progressLabel.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
     progressHolder.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     progressShower.progressTintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
-    UIImage *image = [UIImage imageNamed:@"CitySelectHeader.png"];
+    UIImage *image = [UIImage imageNamed:@"BlankHeader.png"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    
+    UILabel *mapTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    mapTitle.font = [UIFont fontWithName:@"Font-Family:kalingab" size:20];
+    mapTitle.textColor = [UIColor whiteColor];
+    mapTitle.backgroundColor = [UIColor clearColor];
+    mapTitle.textAlignment = UITextAlignmentCenter;
+    mapTitle.text = @"Select a City";
+    self.navigationItem.titleView = mapTitle;
 }
 
 - (void)didReceiveMemoryWarning

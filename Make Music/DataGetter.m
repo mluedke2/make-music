@@ -20,7 +20,7 @@
 	// first initialize the data that we'll be getting back, and start the request string with the baseURL
 	responseData = [NSMutableData data];
     
-	NSString *requestString = @"http://s3.amazonaws.com/makemusicmatch-dev/appdata/cities.json";
+	NSString *requestString = @"http://s3.amazonaws.com/appdata2013/cities.json";
 	
     requestString = [requestString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"%@", requestString);

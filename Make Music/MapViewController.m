@@ -35,7 +35,7 @@
     // install filters button
 	genreFilterButton = [[UIBarButtonItem alloc] initWithTitle:@"Genre" style:UIBarButtonItemStylePlain target:self action:@selector(genreFilter)];
 	self.navigationItem.rightBarButtonItem = genreFilterButton;
-
+    
     chosenGenre = @"All";
     
     [self putTogetherGenreList];
@@ -47,7 +47,10 @@
     spinner.hidden = NO;
     [spinner startAnimating];
     
+    allOrCurrent.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+    
     artistNameSearchBar.placeholder = @"Search by Artist Name";
+    artistNameSearchBar.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     artistNameSearchBar.delegate = self;
     for (UIView *view in artistNameSearchBar.subviews){
         if ([view isKindOfClass: [UITextField class]]) {
@@ -65,7 +68,7 @@
     [tap setCancelsTouchesInView:NO];
     [self.view addGestureRecognizer:tap];
     
-    UIImage *image = [UIImage imageNamed:@"MapHeader.png"];
+    UIImage *image = [UIImage imageNamed:@"BlankHeader.png"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     UILabel *mapTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     mapTitle.font = [UIFont fontWithName:@"Font-Family:kalingab" size:20];
@@ -79,6 +82,20 @@
     genreFilteredVenues = appDelegate.venueList;
     relevantVenues = genreFilteredVenues;
     
+    for(UIView *v in artistNameSearchBar.subviews){
+        
+        if([v isKindOfClass:NSClassFromString( @"UISearchBarBackground" )]){
+            [v setAlpha:0.0F];
+        }
+    }
+    artistNameSearchBar.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+//    UIView *searchBackground = [[UIView alloc] initWithFrame:artistNameSearchBar.bounds];
+//    searchBackground.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+//    [self.view addSubview:searchBackground];
+
+    
+    allOrCurrent.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+
     [self makeAnnotations];
    
 }
