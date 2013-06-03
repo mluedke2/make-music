@@ -305,7 +305,7 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    
+    /*
     NSLog(@"error getting location");
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"Error Finding Your Location"
@@ -314,6 +314,7 @@
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil];
     [alert show];
+     */
     
 }
 

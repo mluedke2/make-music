@@ -87,6 +87,9 @@
     
  //   allOrCurrent.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     
+    genrePicker.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+    genrePickerDismisser.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+    
     artistNameSearchBar.placeholder = @"Search by Artist Name";
     artistNameSearchBar.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     artistNameSearchBar.delegate = self;
@@ -536,10 +539,19 @@
 
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+
     [self searchBarShouldEndEditing:searchBar];
+    [searchBar resignFirstResponder];
+    spinnerHolder.hidden = NO;
+    [self performSelectorInBackground:@selector(searchLogic) withObject:nil];
+    
+}
+
+- (void)searchLogic {
     
     [self searchByName:self];
-    [searchBar resignFirstResponder];
+    
+    self.spinnerHolder.hidden = YES;
     
 }
 
@@ -551,10 +563,20 @@
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    [self filterByGenre];
-    [self checkAllOrCurrent];
+
+    self.spinnerHolder.hidden = NO;
     [searchBar resignFirstResponder];
     [self searchBarShouldEndEditing:searchBar];
+    
+    [self performSelectorInBackground:@selector(searchCancelLogic) withObject:nil];
+}
+
+- (void)searchCancelLogic {
+    
+    [self filterByGenre];
+    [self checkAllOrCurrent];
+    
+    self.spinnerHolder.hidden = YES;
 }
 
 -(BOOL) searchBarShouldEndEditing:(UISearchBar *)searchBar{
@@ -596,8 +618,9 @@
 
 }
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	
-    return [genreList objectAtIndex:row];
+
+	return @"";
+//    return [genreList objectAtIndex:row];
 
 }
 
@@ -605,6 +628,18 @@
     
     chosenGenre = [genreList objectAtIndex:row];
 	
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    UILabel* tView = (UILabel*)view;
+    if (!tView){
+        tView = [[UILabel alloc] init];
+        // Setup label properties - frame, font, colors etc
+        [tView setFont:[UIFont fontWithName:@"Font-Family:kalingab" size:18]];
+        tView.backgroundColor = [UIColor clearColor];
+    }
+    tView.text = [NSString stringWithFormat:@"  %@", [genreList objectAtIndex:row]];
+    return tView;
 }
 
 -(void)dismissKeyboard {
