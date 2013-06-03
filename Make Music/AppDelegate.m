@@ -28,16 +28,16 @@
     
     NSLog(@"venues count: %i", self.venueList.count);
     
+    /*
     if (self.venueList.count > 0) {
         // move on to the navigation controller
-        
-        NSLog(@"trying to move on!");
         
         MapViewController *mapViewController = [[MapViewController alloc] initWithNibName:[NSString stringWithFormat:@"MapViewController%@", self.nibAddOn] bundle:nil];
         
         [navigator pushViewController:mapViewController animated:NO];
         
-    } 
+    }
+     */
 
     [self.window makeKeyAndVisible];
     return YES;

@@ -306,7 +306,7 @@
     NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"id = %@", annotation.venue_id];
     appDelegate.currentVenue = [[appDelegate.venueList filteredArrayUsingPredicate:pred1] lastObject];
     
-    NSLog(@"venue id chosen: %@", annotation.venue_id);
+    NSLog(@"currentVenue: %@", appDelegate.currentVenue);
     
     DetailsViewController *detailsViewController = [[DetailsViewController alloc] initWithNibName:[NSString stringWithFormat:@"DetailsViewController%@", appDelegate.nibAddOn] bundle:nil];
     

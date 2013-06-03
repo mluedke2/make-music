@@ -70,14 +70,14 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[responseData setLength:0];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"perf_progress_sizer" object:self userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithLongLong:response.expectedContentLength] forKey:@"numberToReach"]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"progress_sizer" object:self userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithLongLong:response.expectedContentLength] forKey:@"numberToReach"]];
     
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 	[responseData appendData:data];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"perf_progress_continuer" object:self userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:data.length] forKey:@"numberToAdd"]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"progress_continuer" object:self userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:data.length] forKey:@"numberToAdd"]];
 
 }
 

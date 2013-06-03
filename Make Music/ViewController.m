@@ -32,6 +32,9 @@
     
     [super viewDidAppear:animated];
     
+    // clear out whatever's on the stack already
+    self.navigationController.viewControllers = [NSArray arrayWithObject:self];
+    
     // if there is already a default location set, just move on to the navigation controller
     //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -51,11 +54,11 @@
             [progressShower setProgress:0.0 animated:NO];
             progressLabel.text = @"Finding festivals...";
             
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sizeProgress:) name:@"fest_progress_sizer" object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sizeProgress:) name:@"progress_sizer" object:nil];
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideProgressAndReload) name:@"fest_progress_done" object:nil];
             
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"fest_progress_continuer" object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"progress_continuer" object:nil];
             
         }
     
@@ -161,11 +164,11 @@
     [progressShower setProgress:0.0 animated:NO];
     progressLabel.text = @"Finding performances...";
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sizeProgress:) name:@"perf_progress_sizer" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sizeProgress:) name:@"progress_sizer" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideProgress) name:@"perf_progress_done" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"perf_progress_continuer" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"progress_continuer" object:nil];
     
     appDelegate.currentLocation = [appDelegate.locationList objectAtIndex:location_index];
     [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:appDelegate.currentLocation] forKey:@"currentLocation"];
@@ -177,6 +180,8 @@
 #pragma mark loading methods
 
 - (void)sizeProgress:(NSNotification *)notification {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"progress_sizer" object:nil];
     
     self.progressSize = [[notification.userInfo objectForKey:@"numberToReach"] floatValue];
     self.progressSize = self.progressSize * 1.03;
@@ -198,11 +203,9 @@
 
 - (void)hideProgress {
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"performance_list_sizer" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"progress_continuer" object:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"performance_list_progress" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"performance_list_received" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"perf_progress_done" object:nil];
     
     progressHolder.hidden = YES;
     
@@ -210,21 +213,15 @@
     
     MapViewController *mapViewController = [[MapViewController alloc] initWithNibName:[NSString stringWithFormat:@"MapViewController%@", appDelegate.nibAddOn] bundle:nil];
     
-  //  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
-    
-  //  [self presentViewController:navigationController animated:YES completion:nil];
-    
     [self.navigationController pushViewController:mapViewController animated:YES];
     
 }
 
 - (void)hideProgressAndReload {
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"performance_list_sizer" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"progress_continuer" object:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"performance_list_progress" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"performance_list_received" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"fest_progress_done" object:nil];
     
     progressHolder.hidden = YES;
     
