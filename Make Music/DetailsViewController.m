@@ -127,9 +127,27 @@
     return self;
 }
 
+- (void)goBack {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // custom back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setFrame:CGRectMake(0.0f, 0.0f, 92.0f, 42.0f)];
+    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"BackButton"] forState:UIControlStateNormal];
+    backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [backButton sizeToFit];
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backButtonItem;
+    
+    
     // Do any additional setup after loading the view from its nib.
     self.performanceTableView.separatorColor = [UIColor darkGrayColor];
     [self getPerformanceList];
@@ -232,9 +250,9 @@
     artistNameLabel.textColor = [UIColor darkGrayColor];
     artistNameLabel.backgroundColor = [UIColor clearColor];
     artistNameLabel.adjustsFontSizeToFitWidth = YES;
-    artistNameLabel.minimumFontSize = 8.0;
-    artistNameLabel.lineBreakMode = UILineBreakModeCharacterWrap;
-    //artistNameLabel.numberOfLines = 2;
+    artistNameLabel.minimumScaleFactor = 50.0;
+    artistNameLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    artistNameLabel.numberOfLines = 2;
     [cell addSubview:artistNameLabel];
     
     UILabel *startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 50, 180, 20)];
@@ -299,6 +317,7 @@
     
     NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[imageData objectForKey:@"image_url"]]];
     UIImageView *imageView = (UIImageView *)[imageData objectForKey:@"artistImageView"];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView setImage:[UIImage imageWithData: data]];
     [(UITableViewCell *)[imageData objectForKey:@"cell"] addSubview:imageView];
     

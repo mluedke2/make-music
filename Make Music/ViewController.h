@@ -14,7 +14,7 @@
     CLLocationManager *locationManager;
 
     IBOutlet UITableView *locationTableView;
-    IBOutlet UIView *progressHolder;
+    IBOutlet UIImageView *progressHolder;
     IBOutlet UIProgressView *progressShower;
     IBOutlet UIActivityIndicatorView *spinner;
     float progressSize;
@@ -30,7 +30,7 @@
 
 @property BOOL shouldAcceptThisLocation;
 
-@property (nonatomic, retain) IBOutlet UIView *progressHolder;
+@property (nonatomic, retain) IBOutlet UIImageView *progressHolder;
 @property (nonatomic, retain) IBOutlet UIProgressView *progressShower;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;

@@ -31,18 +31,15 @@
     
     [super viewWillAppear:animated];
     
-    [self performSelector:@selector(startSpinner) withObject:nil];
+ //   [self performSelector:@selector(startSpinner) withObject:nil];
     
 }
 
 - (void)startSpinner {
     
-    spinnerText.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
-    [spinnerText setText:@"Updating Map..."];
-    spinnerHolder.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+
     spinnerHolder.hidden = NO;
-    spinner.hidden = NO;
-    [spinner startAnimating];
+
     
 }
 
@@ -56,20 +53,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [spinnerHolder setImage:[UIImage imageNamed:@"greenbox"]];
+    spinnerText.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
+    [spinnerText setText:@"Updating Map..."];
+    spinner.hidden = NO;
+    [spinner startAnimating];
+    
     // custom back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setFrame:CGRectMake(0.0f, 0.0f, 92.0f, 42.0f)];
     [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"BackButton"] forState:UIControlStateNormal];
+    backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [backButton sizeToFit];
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = backButtonItem;
     
     // custom filters button
     UIButton *genreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    genreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [genreButton setFrame:CGRectMake(0.0f, 0.0f, 204.0f, 46.0f)];
     [genreButton addTarget:self action:@selector(genreFilter) forControlEvents:UIControlEventTouchUpInside];
     [genreButton setImage:[UIImage imageNamed:@"GenreButton"] forState:UIControlStateNormal];
+    genreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [genreButton sizeToFit];
     UIBarButtonItem *genreButtonItem = [[UIBarButtonItem alloc] initWithCustomView:genreButton];
     self.navigationItem.rightBarButtonItem = genreButtonItem;
@@ -80,7 +85,7 @@
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    allOrCurrent.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+ //   allOrCurrent.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     
     artistNameSearchBar.placeholder = @"Search by Artist Name";
     artistNameSearchBar.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
@@ -107,7 +112,7 @@
     mapTitle.font = [UIFont fontWithName:@"Font-Family:kalingab" size:20];
     mapTitle.textColor = [UIColor whiteColor];
     mapTitle.backgroundColor = [UIColor clearColor];
-    mapTitle.textAlignment = UITextAlignmentCenter;
+    mapTitle.textAlignment = NSTextAlignmentCenter;
     mapTitle.text = [appDelegate.currentLocation objectForKey:@"name"];
     self.navigationItem.titleView = mapTitle;
   //  [self performSelectorInBackground:@selector(makeAnnotations) withObject:nil];
@@ -127,7 +132,7 @@
 //    [self.view addSubview:searchBackground];
 
     
-    allOrCurrent.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
+ //   allOrCurrent.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
 
     [self makeAnnotations];
     

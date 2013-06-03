@@ -71,7 +71,6 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.locationTableView.separatorColor = [UIColor darkGrayColor];
     progressLabel.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
-    progressHolder.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     progressShower.progressTintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     UIImage *image = [UIImage imageNamed:@"BlankHeader.png"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
@@ -79,9 +78,11 @@
     mapTitle.font = [UIFont fontWithName:@"Font-Family:kalingab" size:20];
     mapTitle.textColor = [UIColor whiteColor];
     mapTitle.backgroundColor = [UIColor clearColor];
-    mapTitle.textAlignment = UITextAlignmentCenter;
+    mapTitle.textAlignment = NSTextAlignmentCenter;
     mapTitle.text = @"Select a City";
     self.navigationItem.titleView = mapTitle;
+    
+    [progressHolder setImage:[UIImage imageNamed:@"greenbox"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -233,9 +234,8 @@
     
     progressHolder.hidden = YES;
     
+    locationTableView.hidden = NO;
     [locationTableView reloadData];
-    
-    NSLog(@"should find the user");
     
     [self findWhereUserIs];
     
