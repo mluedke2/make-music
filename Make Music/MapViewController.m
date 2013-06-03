@@ -16,7 +16,7 @@
 @end
 
 @implementation MapViewController
-@synthesize venueMapView, spinner, allOrCurrent, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder;
+@synthesize venueMapView, spinner, allOrCurrent, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder, spinnerText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,9 +37,18 @@
 
 - (void)startSpinner {
     
+    spinnerText.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
+    [spinnerText setText:@"Updating Map..."];
+    spinnerHolder.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     spinnerHolder.hidden = NO;
     spinner.hidden = NO;
     [spinner startAnimating];
+    
+}
+
+- (void)goBack {
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad
@@ -47,15 +56,27 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    // install filters button
-	genreFilterButton = [[UIBarButtonItem alloc] initWithTitle:@"Genre" style:UIBarButtonItemStylePlain target:self action:@selector(genreFilter)];
-	self.navigationItem.rightBarButtonItem = genreFilterButton;
+    // custom back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setFrame:CGRectMake(0.0f, 0.0f, 92.0f, 42.0f)];
+    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"BackButton"] forState:UIControlStateNormal];
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backButtonItem;
+    
+    // custom filters button
+    UIButton *genreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    genreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [genreButton setFrame:CGRectMake(0.0f, 0.0f, 204.0f, 46.0f)];
+    [genreButton addTarget:self action:@selector(genreFilter) forControlEvents:UIControlEventTouchUpInside];
+    [genreButton setImage:[UIImage imageNamed:@"GenreButton"] forState:UIControlStateNormal];
+    [genreButton sizeToFit];
+    UIBarButtonItem *genreButtonItem = [[UIBarButtonItem alloc] initWithCustomView:genreButton];
+    self.navigationItem.rightBarButtonItem = genreButtonItem;
     
     chosenGenre = @"All";
     
     [self putTogetherGenreList];
-    
-    NSLog(@"loading maps");
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
@@ -109,6 +130,8 @@
     allOrCurrent.backgroundColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
 
     [self makeAnnotations];
+    
+    [[[self navigationController] navigationBar] setNeedsLayout];
    
 }
 
@@ -135,12 +158,21 @@
     genrePicker.hidden = YES;
     genrePickerDismisser.hidden = YES;
     
+    spinnerHolder.hidden = NO;    
+    [self performSelectorInBackground:@selector(filterLogic) withObject:nil];
+
+}
+
+-(void)filterLogic {
+
     [self filterByGenre];
     
     [self checkAllOrCurrent];
        
     [venueMapView removeAnnotations:venueMapView.annotations];
     [self makeAnnotations];
+    
+    spinnerHolder.hidden = YES;
     
 }
 
@@ -199,9 +231,7 @@
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
 {
-    
-    [spinner stopAnimating];
-    spinner.hidden = YES;
+
     spinnerHolder.hidden = YES;
      
 }
@@ -209,8 +239,6 @@
 -(IBAction)changeMode:(UISegmentedControl *)sender {
     
     spinnerHolder.hidden = NO;
-    spinner.hidden = NO;
-    [spinner startAnimating];
      
     [self performSelectorInBackground:@selector(changeModeLogic) withObject:nil];
    
@@ -222,8 +250,6 @@
     
     [self checkAllOrCurrent];
     
-    [spinner stopAnimating];
-    spinner.hidden = YES;
     spinnerHolder.hidden = YES;
     
 }
@@ -420,8 +446,6 @@
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
-    [spinner stopAnimating];
-    spinner.hidden = YES;
     spinnerHolder.hidden = YES;
 }
 

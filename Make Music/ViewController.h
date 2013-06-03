@@ -16,6 +16,7 @@
     IBOutlet UITableView *locationTableView;
     IBOutlet UIView *progressHolder;
     IBOutlet UIProgressView *progressShower;
+    IBOutlet UIActivityIndicatorView *spinner;
     float progressSize;
     IBOutlet UILabel *progressLabel;
     
@@ -32,6 +33,7 @@
 @property (nonatomic, retain) IBOutlet UIView *progressHolder;
 @property (nonatomic, retain) IBOutlet UIProgressView *progressShower;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) IBOutlet UITableView *locationTableView;
 

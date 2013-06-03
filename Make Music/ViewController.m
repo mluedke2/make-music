@@ -19,7 +19,7 @@
 @implementation ViewController
 @synthesize locationTableView;
 @synthesize progressHolder, progressShower, progressSize, progressLabel;
-@synthesize locationManager, shouldAcceptThisLocation;
+@synthesize locationManager, shouldAcceptThisLocation, spinner;
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
@@ -51,6 +51,7 @@
             [dataGetter getTheAppData];
             
             progressHolder.hidden = NO;
+            [spinner startAnimating];
             [progressShower setProgress:0.0 animated:NO];
             progressLabel.text = @"Finding festivals...";
             
