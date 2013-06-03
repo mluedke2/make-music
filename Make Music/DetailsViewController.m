@@ -15,7 +15,52 @@
 @end
 
 @implementation DetailsViewController
-@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage;
+@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView;
+
+-(IBAction)hideArtistDetails:(id)sender {
+
+    [UIView beginAnimations:@"fadeOutDetails" context:NULL];
+    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDelegate:self];
+    
+    artistDetailView.alpha = 0.0;
+    artistDetailButton.alpha = 0.0;
+    
+    [UIView commitAnimations];
+    
+}
+
+- (void)animationDidStop:(NSString *)animID finished:(BOOL)didFinish context:(void *)context
+{
+    if ( [animID isEqualToString:@"fadeOutDetails"] ) {
+        artistDetailView.hidden = YES;
+        artistDetailButton.hidden = YES;
+    }
+}
+
+- (void) fadeInDetails {
+    
+    [UIView beginAnimations:@"fadeInDetails" context:NULL];
+    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDelegate:self];
+    
+    artistDetailView.alpha = 1.0;
+    artistDetailButton.alpha = 1.0;
+    
+    [UIView commitAnimations];
+    
+}
+
+
+- (void) showDetails {
+    
+    artistDetailView.hidden = NO;
+    artistDetailButton.hidden = NO;
+    
+    [self performSelectorInBackground:@selector(fadeInDetails) withObject:nil];
+
+    
+}
 
 -(IBAction)email:(id)sender {
     
@@ -147,6 +192,8 @@
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = backButtonItem;
     
+    artistDetailButton.hidden = YES;
+    artistDetailView.hidden = YES;
     
     // Do any additional setup after loading the view from its nib.
     self.performanceTableView.separatorColor = [UIColor darkGrayColor];
@@ -323,6 +370,15 @@
     
 }
 
+- (void)getArtistDetailImage:(NSDictionary *)imageData {
+    
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[imageData objectForKey:@"image_url"]]];
+    UIImageView *imageView = (UIImageView *)[imageData objectForKey:@"imageView"];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [imageView setImage:[UIImage imageWithData:data]];
+    
+}
+
 - (IBAction)showInfo:(id)sender{
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
@@ -332,6 +388,19 @@
     NSDictionary *currentArtist = [[appDelegate.artistList filteredArrayUsingPredicate:pred] lastObject];
     
     if([currentArtist objectForKey:@"140_description"] != [NSNull null]){
+    
+        artistDetailNameLabel.font = [UIFont fontWithName: @"Arial-BoldMT" size:16.0];
+        artistDetailNameLabel.textColor = [UIColor whiteColor];
+        artistDescLabel.font = [UIFont fontWithName: @"ArialMT" size:14.0];
+        artistDescLabel.textColor = [UIColor whiteColor];
+        
+        artistDescLabel.text = [currentArtist objectForKey:@"140_description"];
+        NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:artistImageView, @"imageView", [currentArtist objectForKey:@"image_url"], @"image_url",nil];
+        [self performSelectorInBackground:@selector(getArtistDetailImage:) withObject:imageData];
+        artistDetailNameLabel.text = [currentArtist objectForKey:@"groupname"];
+        [self showDetails];
+        
+        /*
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"More Artist Info"
                               message:[currentArtist objectForKey:@"140_description"]
@@ -340,6 +409,7 @@
                               otherButtonTitles:nil];
         
         [alert show];
+         */
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc]
