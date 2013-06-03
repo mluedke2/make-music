@@ -115,10 +115,10 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    UIImageView* cityLogo = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 80, 80)];
-    NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:[[appDelegate.locationList objectAtIndex:indexPath.row] objectForKey:@"logo"]]];
-    cityLogo.image = [UIImage imageWithData: data];
-    [cell addSubview:cityLogo];
+    
+    NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:[[appDelegate.locationList objectAtIndex:indexPath.row] objectForKey:@"logo"], @"image_url", cell, @"cell", nil];
+    
+    [self performSelectorInBackground:@selector(loadCityImage:) withObject:imageData];
     
     cell.textLabel.hidden = YES;
     UILabel *cityName = [[UILabel alloc] initWithFrame:CGRectMake(130, 44, 170, 20)];
@@ -134,6 +134,15 @@
 	return cell;
 }
 
+- (void)loadCityImage:(NSDictionary *)imageData {
+    
+    UIImageView* cityLogo = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 80, 80)];
+    NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:[imageData objectForKey:@"image_url"]]];
+    
+    [cityLogo setImage:[UIImage imageWithData: data]];
+    [(UITableViewCell *)[imageData objectForKey:@"cell"] addSubview:cityLogo];
+    
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     

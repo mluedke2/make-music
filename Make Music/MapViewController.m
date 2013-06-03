@@ -16,7 +16,7 @@
 @end
 
 @implementation MapViewController
-@synthesize venueMapView, spinner, allOrCurrent, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar;
+@synthesize venueMapView, spinner, allOrCurrent, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +25,21 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self performSelector:@selector(startSpinner) withObject:nil];
+    
+}
+
+- (void)startSpinner {
+    
+    spinnerHolder.hidden = NO;
+    spinner.hidden = NO;
+    [spinner startAnimating];
 }
 
 - (void)viewDidLoad
@@ -43,9 +58,6 @@
     NSLog(@"loading maps");
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
-    spinner.hidden = NO;
-    [spinner startAnimating];
     
     allOrCurrent.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     
@@ -185,11 +197,35 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)changeMode:(UISegmentedControl *)sender {
- 
-    [self filterByGenre];
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
+{
+    
+    [spinner stopAnimating];
+    spinner.hidden = YES;
+    spinnerHolder.hidden = YES;
+     
+}
 
+-(IBAction)changeMode:(UISegmentedControl *)sender {
+    
+    spinnerHolder.hidden = NO;
+    spinner.hidden = NO;
+    [spinner startAnimating];
+     
+    [self performSelectorInBackground:@selector(changeModeLogic) withObject:nil];
+   
+}
+
+- (void)changeModeLogic {
+    
+    [self filterByGenre];
+    
     [self checkAllOrCurrent];
+    
+    [spinner stopAnimating];
+    spinner.hidden = YES;
+    spinnerHolder.hidden = YES;
+    
 }
 
 -(void)checkAllOrCurrent {
@@ -276,11 +312,16 @@
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{
    
-    MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
+    MKPinAnnotationView *annView = nil;
+    annView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"identifier"];
+    if (nil == annView) {
+    annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
+    }
     annView.pinColor = MKPinAnnotationColorGreen;
-    annView.animatesDrop=TRUE;
+    annView.animatesDrop=FALSE;
     annView.canShowCallout = YES;
     annView.calloutOffset = CGPointMake(-5, 5);
+    [annView setImage:[UIImage imageNamed:@"MapPin"]];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     
@@ -341,16 +382,22 @@
  NSLog(@"trying to be making annotations: %i", relevantVenues.count);
     [venueMapView removeAnnotations:venueMapView.annotations];
     [self resignFirstResponder];
-    for (int i = 0; i < relevantVenues.count; i++) {
-        
-       
     
-    CLLocationCoordinate2D location1;
-        
+    for (int i = 0; i < relevantVenues.count; i++) {
+    
         if ([[relevantVenues objectAtIndex:i] objectForKey:@"lat"] == NULL || [[[relevantVenues objectAtIndex:i] objectForKey:@"lat"] isKindOfClass:[NSNull class]]) {
             continue;
         }
         
+        /*
+        NSDictionary *mapData = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:i], @"index", venueMapView, @"mapview", nil];
+        
+        [self performSelectorInBackground:@selector(loadMapDot:) withObject:mapData];
+        */
+        
+         
+    CLLocationCoordinate2D location1;
+         
     location1.latitude = [[[relevantVenues objectAtIndex:i] objectForKey:@"lat"] doubleValue];
     location1.longitude = [[[relevantVenues objectAtIndex:i] objectForKey:@"lng"] doubleValue];
      
@@ -365,13 +412,43 @@
  //   latestAnnotation.performanceData = [appDelegate.performanceList objectAtIndex:i];
         
     [venueMapView addAnnotation:latestAnnotation];
+         
     
     }
-    
-    [spinner stopAnimating];
-    spinner.hidden = YES;
 
 }
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+{
+    [spinner stopAnimating];
+    spinner.hidden = YES;
+    spinnerHolder.hidden = YES;
+}
+
+- (void)loadMapDot:(NSDictionary *)mapData {
+    
+    int i = [[mapData objectForKey:@"index"] integerValue];
+    
+    CLLocationCoordinate2D location1;
+    
+    location1.latitude = [[[relevantVenues objectAtIndex:i] objectForKey:@"lat"] doubleValue];
+    location1.longitude = [[[relevantVenues objectAtIndex:i] objectForKey:@"lng"] doubleValue];
+    
+    LocationAnnotation *latestAnnotation = [[LocationAnnotation alloc] initWithCoordinate:location1];
+    
+    latestAnnotation.name = [[relevantVenues objectAtIndex:i] objectForKey:@"name"];
+    
+    latestAnnotation.address = [[relevantVenues objectAtIndex:i] objectForKey:@"address"];
+    
+    latestAnnotation.venue_id = [[relevantVenues objectAtIndex:i] objectForKey:@"id"];
+    
+    MKMapView *mapView = (MKMapView *)[mapData objectForKey:@"mapView"];
+    
+    [mapView addAnnotation:latestAnnotation];
+    
+}
+
+
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     

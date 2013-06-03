@@ -13,6 +13,7 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, UITextFieldDelegate>{
     
     IBOutlet MKMapView *venueMapView;
+    IBOutlet UIImageView *spinnerHolder;
     IBOutlet UIActivityIndicatorView *spinner;
     IBOutlet UISegmentedControl *allOrCurrent;
     
@@ -30,6 +31,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *venueMapView;
+@property (nonatomic, retain) IBOutlet UIImageView *spinnerHolder;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *allOrCurrent;
 

@@ -254,9 +254,10 @@
         UIImageView *artistImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
         //Lazy Load
         
-        NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[currentArtist objectForKey:@"image_url"]]];
-        artistImageView.image = [UIImage imageWithData: data];
-        [cell addSubview:artistImageView];
+        NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:[currentArtist objectForKey:@"image_url"], @"image_url", cell, @"cell", artistImageView, @"artistImageView", nil];
+        
+        [self performSelectorInBackground:@selector(loadArtistImage:) withObject:imageData];
+        
     }
     else{
         UIImageView *artistImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"artistDefault"]];
@@ -292,6 +293,15 @@
     // cell.detailTextLabel.text = @"details";
     
 	return cell;
+}
+
+- (void)loadArtistImage:(NSDictionary *)imageData {
+    
+    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[imageData objectForKey:@"image_url"]]];
+    UIImageView *imageView = (UIImageView *)[imageData objectForKey:@"artistImageView"];
+    [imageView setImage:[UIImage imageWithData: data]];
+    [(UITableViewCell *)[imageData objectForKey:@"cell"] addSubview:imageView];
+    
 }
 
 - (IBAction)showInfo:(id)sender{
