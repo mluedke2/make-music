@@ -46,8 +46,6 @@
 
 - (void)initializeVariables {
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     self.locationList = [NSArray array];
     self.venueList = [NSArray array];
     self.performanceList = [NSArray array];
@@ -56,31 +54,6 @@
     self.currentVenue = [NSDictionary dictionary];
     self.currentLocation = [NSDictionary dictionary];
     self.genreFilter = @"All";
-    
-    if ([defaults objectForKey:@"locationList"]) {
-        self.locationList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"locationList"]];
-    }
-    
-    if ([defaults objectForKey:@"currentLocation"]) {
-        self.currentLocation = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"currentLocation"]];
-    }
-    
-    if ([defaults objectForKey:@"performanceList"]) {
-        self.performanceList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"performanceList"]];
-    }
-    
-    NSLog(@"about to test for venues");
-    if ([NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]]) {
-        NSLog(@"there are venues saved");
-        self.venueList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]];
-        NSLog(@"there are venues saved: %i", self.venueList.count);
-        NSLog(@"there are venues saved: %i", [[NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]] count]);
-    }
-    
-    if ([defaults objectForKey:@"artistList"]) {
-        self.artistList = [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"artistList"]];
-    }
-    
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {

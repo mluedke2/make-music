@@ -322,10 +322,12 @@
     // let's see what's going on here.
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSLog(@"centering map");
+    NSLog(@"currentLocation: %@", appDelegate.currentLocation);
+    
+    NSLog(@"centering map: %.2f\n%.2f", [[appDelegate.currentLocation objectForKey:@"lat"] floatValue], [[appDelegate.currentLocation objectForKey:@"lng"] floatValue]);
     
     CLLocationCoordinate2D coord = {.latitude =  [[appDelegate.currentLocation objectForKey:@"lat"] floatValue], .longitude =  [[appDelegate.currentLocation objectForKey:@"lng"] floatValue]};
-    MKCoordinateSpan span = {.latitudeDelta =  0.5, .longitudeDelta =  0.5};
+    MKCoordinateSpan span = {.latitudeDelta =  0.11, .longitudeDelta =  0.14};
     MKCoordinateRegion region = {coord, span};
     
     [venueMapView setRegion:region];

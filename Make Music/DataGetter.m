@@ -41,7 +41,6 @@
 	SBJsonParser *json = [SBJsonParser new];
 	
 	AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
     // the data is in the form of an array
 	
@@ -55,9 +54,6 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"fest_progress_done" object:nil];
     
-    // load things back into defaults
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:appDelegate.locationList] forKey:@"locationList"];
-	
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {

@@ -15,7 +15,7 @@
 @end
 
 @implementation DetailsViewController
-@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, venueImage;
+@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage;
 
 -(IBAction)email:(id)sender {
     
@@ -134,6 +134,38 @@
     self.performanceTableView.separatorColor = [UIColor darkGrayColor];
     [self getPerformanceList];
     
+    [self performSelectorInBackground:@selector(loadAdImage) withObject:nil];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:YES];
+    
+    // initialize the timer
+	timer = [NSTimer scheduledTimerWithTimeInterval:(30.0) target:self selector:@selector(loadAdImage) userInfo:nil repeats:YES];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [timer invalidate];
+    
+	[super viewWillDisappear:animated];
+}
+
+- (void)loadAdImage {
+    
+    // get array of ad images
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    NSLog(@"current location data: %@", appDelegate.currentLocation);
+    
+    int r = arc4random() % [[appDelegate.currentLocation objectForKey:@"sponsors"] count];
+    
+    NSLog(@"is going to get image: %@", [[appDelegate.currentLocation objectForKey:@"sponsors"] objectAtIndex:r]);
+    
+    [adImage setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[[appDelegate.currentLocation objectForKey:@"sponsors"] objectAtIndex:r]]]]];
+    
 }
 
 -(void)getPerformanceList {
@@ -153,7 +185,6 @@
     venueNameLabel.text = [appDelegate.currentVenue objectForKey:@"name"];
     
     venueAddressLabel.text = [appDelegate.currentVenue objectForKey:@"address"];
-    //venueImage = [self loadImage:]];
     
     [performanceTableView reloadData];
 }
@@ -162,13 +193,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)loadImage:(NSIndexPath*)indexPath:(NSString *)url {
-    
-    //NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
-    //UIImage *image = [UIImage imageWithData: data];
-    
 }
 
 # pragma mark tableview methods

@@ -155,10 +155,11 @@
     
     // go to the punchScreen
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    appDelegate.currentLocation = [appDelegate.locationList objectAtIndex:location_index];
     
     PerformanceListGetter *performanceListGetter = [[PerformanceListGetter alloc] init];
-    [performanceListGetter getPerformanceList:[[appDelegate.locationList objectAtIndex:location_index] objectForKey:@"performances"]];
+    [performanceListGetter getPerformanceList:[appDelegate.currentLocation objectForKey:@"performances"]];
     
     progressHolder.hidden = NO;
     [progressShower setProgress:0.0 animated:NO];
@@ -169,10 +170,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideProgress) name:@"perf_progress_done" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"progress_continuer" object:nil];
-    
-    appDelegate.currentLocation = [appDelegate.locationList objectAtIndex:location_index];
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:appDelegate.currentLocation] forKey:@"currentLocation"];
-
+  
     
     
 }

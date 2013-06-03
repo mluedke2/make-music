@@ -16,7 +16,8 @@
     IBOutlet UITableView *performanceTableView;
     IBOutlet UILabel *venueNameLabel;
     IBOutlet UILabel *venueAddressLabel;
-    IBOutlet UIImageView *venueImage;
+    IBOutlet UIImageView *adImage;
+    NSTimer *timer;
     
 }
 
@@ -25,7 +26,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *performanceTableView;
 @property (nonatomic, retain) IBOutlet UILabel *venueNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *venueAddressLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *venueImage;
+@property (nonatomic, retain) IBOutlet UIImageView *adImage;
 -(IBAction)email:(id)sender;
 -(IBAction)phone:(id)sender;
 -(IBAction)info:(id)sender;

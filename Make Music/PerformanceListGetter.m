@@ -40,7 +40,6 @@
 	SBJsonParser *json = [SBJsonParser new];
 	
 	AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
     // the data is in the form of an array
 	
@@ -55,17 +54,6 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"perf_progress_done" object:nil];
     
-    // also save these!
-    
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:appDelegate.venueList] forKey:@"venueList"];
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:appDelegate.performanceList] forKey:@"performanceList"];
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:appDelegate.artistList] forKey:@"artistList"];
-    
-    if ([NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]]) {
-        NSLog(@"there are venues saved: %i", appDelegate.venueList.count);
-        NSLog(@"there are venues saved: %i", [[NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"venueList"]] count]);
-    }
-	
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
