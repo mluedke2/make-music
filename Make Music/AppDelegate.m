@@ -11,7 +11,7 @@
 #import "MapViewController.h"
 
 @implementation AppDelegate
-@synthesize locationList, venueList, currentLocation, currentVenue, genreFilter, performanceList, artistList, nibAddOn, relevantPerformanceList;
+@synthesize locationList, venueList, currentLocation, currentVenue, genreFilter, performanceList, artistList, nibAddOn, relevantPerformanceList, searchFilter;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -54,6 +54,7 @@
     self.currentVenue = [NSDictionary dictionary];
     self.currentLocation = [NSDictionary dictionary];
     self.genreFilter = @"All";
+    self.searchFilter = @"";
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {

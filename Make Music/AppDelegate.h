@@ -22,6 +22,7 @@
     NSDictionary *currentVenue;
     
     NSString *genreFilter;
+    NSString *searchFilter;
     
     NSString *nibAddOn;
     
@@ -36,6 +37,7 @@
 @property (strong, nonatomic) NSDictionary *currentLocation;
 @property (strong, nonatomic) NSDictionary *currentVenue;
 
+@property (strong, nonatomic) NSString *searchFilter;
 @property (strong, nonatomic) NSString *genreFilter;
 @property (strong, nonatomic) NSString *nibAddOn;
 

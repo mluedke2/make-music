@@ -15,7 +15,7 @@
 @end
 
 @implementation DetailsViewController
-@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView, shadow;
+@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView, shadow, filterView;
 
 -(IBAction)hideArtistDetails:(id)sender {
 
@@ -178,9 +178,158 @@
     
 }
 
+- (void) removeFilter:(UIButton *)filterButton {
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    if (filterButton.tag == 1) {
+       appDelegate.genreFilter = @"All";
+    }
+    else if (filterButton.tag == 2) {
+        appDelegate.searchFilter = @"";
+    }
+    
+    [self renderAgainForFilters];
+}
+
+- (void) renderAgainForFilters {
+    
+    // determine if there's filtering going on
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    // remove subviews
+    [self.filterView.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
+    
+    NSLog(@"appDelegate.genreFilter: %@", appDelegate.genreFilter);
+    NSLog(@"appDelegate.searchFilte: %@", appDelegate.searchFilter);
+    
+    if (![appDelegate.genreFilter isEqualToString:@"All"] || ![appDelegate.searchFilter isEqualToString:@""]) {
+        
+        NSLog(@"filtering");
+        self.filterView.hidden = NO;
+        
+        // if so, create a label and button(s)
+        UILabel *filteredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 15.0, 80.0, 20.0)];
+        filteredByLabel.font = [UIFont fontWithName: @"ArialMT" size:14.0];
+        filteredByLabel.text = @"Filtered By:";
+        [self.view addSubview:filteredByLabel];
+        [self.view sendSubviewToBack:filteredByLabel];
+        
+        UIButton *filterButton1 = [[UIButton alloc] initWithFrame:CGRectMake(100, 0, 100, 44)];
+        [filterButton1 setBackgroundImage:[UIImage imageNamed:@"filter_button"] forState:UIControlStateNormal];
+        filterButton1.tag = 1;
+        [filterButton1.titleLabel setFont:[UIFont fontWithName: @"ArialMT" size:14.0]];
+        [filterButton1 addTarget:self action:@selector(removeFilter:) forControlEvents:UIControlEventTouchUpInside];
+        
+        if (![appDelegate.genreFilter isEqualToString:@"All"]) {
+            
+            [filterButton1 setTitle:appDelegate.genreFilter forState:UIControlStateNormal];
+            
+            if (![appDelegate.searchFilter isEqualToString:@""]) {
+                
+                UIButton *filterButton2 = [[UIButton alloc] initWithFrame:CGRectMake(210, 0, 100, 44)];
+                [filterButton2 setBackgroundImage:[UIImage imageNamed:@"filter_button"] forState:UIControlStateNormal];
+                filterButton2.tag = 2;
+                [filterButton2.titleLabel setFont:[UIFont fontWithName: @"ArialMT" size:14.0]];
+                [filterButton2 addTarget:self action:@selector(removeFilter:) forControlEvents:UIControlEventTouchUpInside];
+                [filterButton2 setTitle:appDelegate.searchFilter forState:UIControlStateNormal];
+                [self.view addSubview:filterButton2];
+                [self.view sendSubviewToBack:filterButton2];
+                
+            }
+            
+        } else {
+            
+            filterButton1.tag = 2;
+            [filterButton1 setTitle:appDelegate.searchFilter forState:UIControlStateNormal];
+            
+        }
+        
+        [self.view addSubview:filterButton1];
+        [self.view sendSubviewToBack:filterButton1];
+        
+        // also, filter the table contents!
+    } else {
+        
+       
+        self.filterView.hidden = YES;
+        
+        // shift everything up by 44 points
+        [self.venueNameLabel setFrame: CGRectMake(venueNameLabel.frame.origin.x, (venueNameLabel.frame.origin.y - 44), venueNameLabel.frame.size.width, venueNameLabel.frame.size.height)];
+        [self.venueAddressLabel setFrame:CGRectMake(venueAddressLabel.frame.origin.x, (venueAddressLabel.frame.origin.y - 44), venueAddressLabel.frame.size.width, venueAddressLabel.frame.size.height)];
+        [self.performanceTableView setFrame:CGRectMake(performanceTableView.frame.origin.x, (performanceTableView.frame.origin.y - 44), performanceTableView.frame.size.width, (performanceTableView.frame.size.height + 44))];
+        
+        
+        
+    }
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // determine if there's filtering going on
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    NSLog(@"appDelegate.genreFilter: %@", appDelegate.genreFilter);
+    NSLog(@"appDelegate.searchFilte: %@", appDelegate.searchFilter);
+    
+    // remove subviews
+    [self.filterView.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
+    
+    if (![appDelegate.genreFilter isEqualToString:@"All"] || ![appDelegate.searchFilter isEqualToString:@""]) {
+        
+        NSLog(@"filtering");
+        self.filterView.hidden = NO;
+        filterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        [self.view addSubview:filterView];
+        [self.view sendSubviewToBack:filterView];
+        
+        // if so, create a label and button(s)
+        UILabel *filteredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 15.0, 80.0, 20.0)];
+        filteredByLabel.font = [UIFont fontWithName: @"ArialMT" size:14.0];
+        filteredByLabel.text = @"Filtered By:";
+        [self.filterView addSubview:filteredByLabel];
+        
+        UIButton *filterButton1 = [[UIButton alloc] initWithFrame:CGRectMake(100, 0, 100, 44)];
+        [filterButton1 setBackgroundImage:[UIImage imageNamed:@"filter_button"] forState:UIControlStateNormal];
+        filterButton1.tag = 1;
+        [filterButton1.titleLabel setFont:[UIFont fontWithName: @"ArialMT" size:14.0]];
+        [filterButton1 addTarget:self action:@selector(removeFilter:) forControlEvents:UIControlEventTouchUpInside];
+        
+        if (![appDelegate.genreFilter isEqualToString:@"All"]) {
+            
+            [filterButton1 setTitle:appDelegate.genreFilter forState:UIControlStateNormal];
+            
+            if (![appDelegate.searchFilter isEqualToString:@""]) {
+                
+                UIButton *filterButton2 = [[UIButton alloc] initWithFrame:CGRectMake(210, 0, 100, 44)];
+                [filterButton2 setBackgroundImage:[UIImage imageNamed:@"filter_button"] forState:UIControlStateNormal];
+                filterButton2.tag = 2;
+                [filterButton2.titleLabel setFont:[UIFont fontWithName: @"ArialMT" size:14.0]];
+                [filterButton2 addTarget:self action:@selector(removeFilter:) forControlEvents:UIControlEventTouchUpInside];
+                [filterButton2 setTitle:appDelegate.searchFilter forState:UIControlStateNormal];
+                [self.filterView addSubview:filterButton2];
+                
+            }
+            
+        } else {
+            
+            filterButton1.tag = 2;
+            [filterButton1 setTitle:appDelegate.searchFilter forState:UIControlStateNormal];
+            
+        }
+        
+        [self.filterView addSubview:filterButton1];
+        
+        // shift everything down by 44 points
+        [self.venueNameLabel setFrame: CGRectMake(venueNameLabel.frame.origin.x, (venueNameLabel.frame.origin.y + 44), venueNameLabel.frame.size.width, venueNameLabel.frame.size.height)];
+        [self.venueAddressLabel setFrame:CGRectMake(venueAddressLabel.frame.origin.x, (venueAddressLabel.frame.origin.y + 44), venueAddressLabel.frame.size.width, venueAddressLabel.frame.size.height)];
+        [self.performanceTableView setFrame:CGRectMake(performanceTableView.frame.origin.x, (performanceTableView.frame.origin.y + 44), performanceTableView.frame.size.width, (performanceTableView.frame.size.height - 44))];
+        
+        // also, filter the table contents!
+    }
     
     // custom back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];

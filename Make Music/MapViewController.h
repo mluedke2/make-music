@@ -28,7 +28,7 @@
     UIBarButtonItem *genreFilterButton;
     
     IBOutlet UISearchBar *artistNameSearchBar;
-    NSString *chosenGenre;
+  //  NSString *chosenGenre;
     NSArray *genreList;
     
 }
@@ -44,7 +44,7 @@
 @property (nonatomic, retain) IBOutlet UIPickerView *genrePicker;
 @property (nonatomic, retain) IBOutlet UIToolbar *genrePickerDismisser;
 @property (nonatomic, retain) UIBarButtonItem *genreFilterButton;
-@property (nonatomic, retain) NSString *chosenGenre;
+//@property (nonatomic, retain) NSString *chosenGenre;
 @property (nonatomic, retain) NSArray *genreList;
 
 @property (nonatomic, retain) IBOutlet UISearchBar *artistNameSearchBar;

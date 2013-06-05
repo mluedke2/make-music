@@ -26,9 +26,13 @@
     IBOutlet UILabel *artistDescLabel;
     IBOutlet UIButton *artistDetailButton;
     
+    UIView *filterView;
+    
 }
 
 @property (nonatomic, retain) NSArray *performanceList;
+
+@property (nonatomic, retain) UIView *filterView;
 
 @property (nonatomic, retain) IBOutlet UIView *shadow;
 @property (nonatomic, retain) IBOutlet UIView *artistDetailView;

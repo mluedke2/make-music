@@ -16,7 +16,8 @@
 @end
 
 @implementation MapViewController
-@synthesize venueMapView, spinner, allConcerts, currentlyPlaying, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder, spinnerText;
+@synthesize venueMapView, spinner, allConcerts, currentlyPlaying, relevantVenues, genrePicker, genreFilterButton, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder, spinnerText;
+//@synthesize chosenGenre;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,6 +31,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    self.artistNameSearchBar.text = appDelegate.searchFilter;
     
  //   [self performSelector:@selector(startSpinner) withObject:nil];
     
@@ -52,6 +56,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     [spinnerHolder setImage:[UIImage imageNamed:@"greenbox"]];
   //  [spinnerHolder setBackgroundColor:[UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1]];
@@ -85,11 +91,9 @@
     UIBarButtonItem *genreButtonItem = [[UIBarButtonItem alloc] initWithCustomView:genreButton];
     self.navigationItem.rightBarButtonItem = genreButtonItem;
     
-    chosenGenre = @"All";
+    appDelegate.genreFilter = @"All";
     
     [self putTogetherGenreList];
-    
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
  //   allOrCurrent.tintColor = [UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1];
     
@@ -207,7 +211,7 @@
         
         NSArray *thisArtistsGenres = [[artistData objectForKey:@"genres"] componentsSeparatedByString:@","];
         
-        if ([thisArtistsGenres containsObject:chosenGenre] || [chosenGenre isEqualToString:@"All"]) {
+        if ([thisArtistsGenres containsObject:appDelegate.genreFilter] || [appDelegate.genreFilter isEqualToString:@"All"]) {
             
             // this performance is in genre!
             
@@ -411,7 +415,11 @@
     NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"id = %@", annotation.venue_id];
     appDelegate.currentVenue = [[appDelegate.venueList filteredArrayUsingPredicate:pred1] lastObject];
     
-    NSLog(@"currentVenue: %@", appDelegate.currentVenue);
+    if (self.artistNameSearchBar.text == NULL) {
+        appDelegate.searchFilter = @"";
+    } else {
+    appDelegate.searchFilter = self.artistNameSearchBar.text;
+    }
     
     DetailsViewController *detailsViewController = [[DetailsViewController alloc] initWithNibName:[NSString stringWithFormat:@"DetailsViewController%@", appDelegate.nibAddOn] bundle:nil];
     
@@ -660,7 +668,9 @@
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
-    chosenGenre = [genreList objectAtIndex:row];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    appDelegate.genreFilter = [genreList objectAtIndex:row];
 	
 }
 
