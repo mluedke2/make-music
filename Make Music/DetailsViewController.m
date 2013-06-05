@@ -316,21 +316,20 @@
     artistGenreLabel.backgroundColor = [UIColor clearColor];
     [cell addSubview:artistGenreLabel];
     
+    UIImageView *artistThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
+    artistThumbView.contentMode = UIViewContentModeScaleAspectFit;
+    [artistThumbView setImage:[UIImage imageNamed:@"artistDefault"]];
+    
+    [cell addSubview:artistThumbView];
+    
     if([currentArtist objectForKey:@"image_url"] != [NSNull null]){
-        UIImageView *artistThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
+   //     UIImageView *artistThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
         //Lazy Load
         
         NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:[currentArtist objectForKey:@"image_url"], @"image_url", cell, @"cell", artistThumbView, @"artistImageView", nil];
         
         [self performSelectorInBackground:@selector(loadArtistImage:) withObject:imageData];
         
-    }
-    else{
-        UIImageView *artistThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
-        artistThumbView.contentMode = UIViewContentModeScaleAspectFit;
-        [artistThumbView setImage:[UIImage imageNamed:@"artistDefault"]];
-        
-        [cell addSubview:artistThumbView];
     }
     
 
@@ -370,7 +369,7 @@
     UIImageView *imageView = (UIImageView *)[imageData objectForKey:@"artistImageView"];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView setImage:[UIImage imageWithData: data]];
-    [(UITableViewCell *)[imageData objectForKey:@"cell"] addSubview:imageView];
+  //  [(UITableViewCell *)[imageData objectForKey:@"cell"] addSubview:imageView];
     
 }
 
@@ -404,6 +403,7 @@
         artistDescLabel.font = [UIFont fontWithName: @"ArialMT" size:14.0];
         artistDescLabel.textColor = [UIColor whiteColor];
         
+        artistImageView.image = [UIImage imageNamed:@"artistDefault"];
         artistDescLabel.text = [currentArtist objectForKey:@"140_description"];
         NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:artistImageView, @"imageView", [currentArtist objectForKey:@"image_url"], @"image_url",nil];
         [self performSelectorInBackground:@selector(getArtistDetailImage:) withObject:imageData];

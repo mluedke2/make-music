@@ -54,26 +54,11 @@
     // Do any additional setup after loading the view from its nib.
     
     [spinnerHolder setImage:[UIImage imageNamed:@"greenbox"]];
+  //  [spinnerHolder setBackgroundColor:[UIColor colorWithRed:164.0/255.0 green:204.0/255.0 blue:57.0/255.0 alpha:1]];
     spinnerText.font = [UIFont fontWithName:@"Font-Family:kalingab" size:18];
     [spinnerText setText:@"Updating Map..."];
     spinner.hidden = NO;
     [spinner startAnimating];
-    
-    /*
-    [allConcerts setImage:[UIImage imageNamed:@"dark_gray_box"] forState:UIControlStateNormal];
-    [allConcerts setImage:[UIImage imageNamed:@"light_gray_box"] forState:UIControlStateSelected];
-    [currentlyPlaying setImage:[UIImage imageNamed:@"dark_gray_box"] forState:UIControlStateNormal];
-    [currentlyPlaying setImage:[UIImage imageNamed:@"light_gray_box"] forState:UIControlStateSelected];
-//    [allConcerts setTitle:@"All Concerts" forState:UIControlStateNormal];
-//    [allConcerts setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [allConcerts.titleLabel setBackgroundColor:[UIColor clearColor]];
-//    [currentlyPlaying.titleLabel setBackgroundColor:[UIColor clearColor]];
-    allConcerts.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    currentlyPlaying.imageView.contentMode = UIViewContentModeScaleAspectFill;
-     */
-    
- //   [allConcerts setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"light_gray_box"]]];
- //   [currentlyPlaying setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"dark_gray_box"]]];
     
     [allConcerts setBackgroundColor:[UIColor darkGrayColor]];
     [currentlyPlaying setBackgroundColor:[UIColor lightGrayColor]];
@@ -166,8 +151,8 @@
 
 - (void) putTogetherGenreList {
     
-    genreList = [NSArray arrayWithObjects:@"All", @"Hip-Hop", @"Rock", @"World", nil];
-    
+    genreList = [NSArray arrayWithObjects:@"All", @"Bluegrass", @"Blues", @"Cabaret", @"Celtic", @"Classical", @"Country", @"Electronic", @"Experimental", @"Folk", @"Funk", @"Gospel/Religious", @"Gypsy", @"Hip-Hop", @"Indie-Folk", @"Indie-Rock", @"Irish", @"Jazz", @"Kids", @"Latin", @"Marching Band", @"Opera", @"Polka", @"Pop", @"R & B", @"Reggae", @"Rock", @"Roots", @"Soul", @"Standards", @"World", @"Other", nil];
+
 }
 
 - (void) genreFilter {
@@ -447,7 +432,11 @@
     NSLog(@"centering map: %.2f\n%.2f", [[appDelegate.currentLocation objectForKey:@"lat"] floatValue], [[appDelegate.currentLocation objectForKey:@"lng"] floatValue]);
     
     CLLocationCoordinate2D coord = {.latitude =  [[appDelegate.currentLocation objectForKey:@"lat"] floatValue], .longitude =  [[appDelegate.currentLocation objectForKey:@"lng"] floatValue]};
-    MKCoordinateSpan span = {.latitudeDelta =  0.11, .longitudeDelta =  0.14};
+    
+    float x = ([[appDelegate.currentLocation objectForKey:@"appzoom"] floatValue] / 70);
+    float y = ([[appDelegate.currentLocation objectForKey:@"appzoom"] floatValue] / 55);
+    
+    MKCoordinateSpan span = {.latitudeDelta =  x, .longitudeDelta =  y};
     MKCoordinateRegion region = {coord, span};
     
     [venueMapView setRegion:region];
