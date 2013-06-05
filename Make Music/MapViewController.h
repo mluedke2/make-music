@@ -16,7 +16,9 @@
     IBOutlet UIImageView *spinnerHolder;
     IBOutlet UILabel *spinnerText;
     IBOutlet UIActivityIndicatorView *spinner;
-    IBOutlet UISegmentedControl *allOrCurrent;
+    
+    IBOutlet UIButton *allConcerts;
+    IBOutlet UIButton *currentlyPlaying;
     
     NSArray *genreFilteredVenues;
     NSArray *relevantVenues;
@@ -35,7 +37,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView *spinnerHolder;
 @property (nonatomic, retain) IBOutlet UILabel *spinnerText;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *allOrCurrent;
+
+@property (nonatomic, retain) IBOutlet UIButton *allConcerts;
+@property (nonatomic, retain) IBOutlet UIButton *currentlyPlaying;
 
 @property (nonatomic, retain) IBOutlet UIPickerView *genrePicker;
 @property (nonatomic, retain) IBOutlet UIToolbar *genrePickerDismisser;
@@ -48,7 +52,8 @@
 @property (nonatomic, retain) NSArray *genreFilteredVenues;
 @property (nonatomic, retain) NSArray *relevantVenues;
 
--(IBAction)changeMode:(UISegmentedControl *)sender;
+-(IBAction)changeModeToAll:(UIButton *)sender;
+-(IBAction)changeModeToCurrent:(UIButton *)sender;
 -(IBAction)dismissPicker:(id)sender;
 
 @end

@@ -16,7 +16,7 @@
 @end
 
 @implementation MapViewController
-@synthesize venueMapView, spinner, allOrCurrent, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder, spinnerText;
+@synthesize venueMapView, spinner, allConcerts, currentlyPlaying, relevantVenues, genrePicker, genreFilterButton, chosenGenre, genreList, genrePickerDismisser, genreFilteredVenues, artistNameSearchBar, spinnerHolder, spinnerText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,6 +58,27 @@
     [spinnerText setText:@"Updating Map..."];
     spinner.hidden = NO;
     [spinner startAnimating];
+    
+    /*
+    [allConcerts setImage:[UIImage imageNamed:@"dark_gray_box"] forState:UIControlStateNormal];
+    [allConcerts setImage:[UIImage imageNamed:@"light_gray_box"] forState:UIControlStateSelected];
+    [currentlyPlaying setImage:[UIImage imageNamed:@"dark_gray_box"] forState:UIControlStateNormal];
+    [currentlyPlaying setImage:[UIImage imageNamed:@"light_gray_box"] forState:UIControlStateSelected];
+//    [allConcerts setTitle:@"All Concerts" forState:UIControlStateNormal];
+//    [allConcerts setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [allConcerts.titleLabel setBackgroundColor:[UIColor clearColor]];
+//    [currentlyPlaying.titleLabel setBackgroundColor:[UIColor clearColor]];
+    allConcerts.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    currentlyPlaying.imageView.contentMode = UIViewContentModeScaleAspectFill;
+     */
+    
+ //   [allConcerts setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"light_gray_box"]]];
+ //   [currentlyPlaying setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"dark_gray_box"]]];
+    
+    [allConcerts setBackgroundColor:[UIColor darkGrayColor]];
+    [currentlyPlaying setBackgroundColor:[UIColor lightGrayColor]];
+    allConcerts.selected = YES;
+    currentlyPlaying.selected = NO;
     
     // custom back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -244,12 +265,36 @@
      
 }
 
--(IBAction)changeMode:(UISegmentedControl *)sender {
+-(IBAction)changeModeToAll:(UIButton *)sender {
+    
+    if (currentlyPlaying.selected) {
+
+    [allConcerts setBackgroundColor:[UIColor darkGrayColor]];
+    [currentlyPlaying setBackgroundColor:[UIColor lightGrayColor]];
+    sender.selected = YES;
+    currentlyPlaying.selected = NO;
     
     spinnerHolder.hidden = NO;
-     
+    
     [self performSelectorInBackground:@selector(changeModeLogic) withObject:nil];
-   
+    
+    }
+}
+
+-(IBAction)changeModeToCurrent:(UIButton *)sender {
+    
+    if (allConcerts.selected) {
+ 
+    [allConcerts setBackgroundColor:[UIColor lightGrayColor]];
+    [currentlyPlaying setBackgroundColor:[UIColor darkGrayColor]];
+    sender.selected = YES;
+    allConcerts.selected = NO;
+    
+    spinnerHolder.hidden = NO;
+    
+    [self performSelectorInBackground:@selector(changeModeLogic) withObject:nil];
+    
+    }
 }
 
 - (void)changeModeLogic {
@@ -264,7 +309,7 @@
 
 -(void)checkAllOrCurrent {
     
-    if (allOrCurrent.selectedSegmentIndex == 0) {
+    if (allConcerts.selected) {
         // all mode
         
         // remove all current annotations
