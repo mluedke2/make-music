@@ -19,6 +19,7 @@
     IBOutlet UIImageView *adImage;
     NSTimer *timer;
     
+    IBOutlet UIView *shadow;
     IBOutlet UIView *artistDetailView;
     IBOutlet UILabel *artistDetailNameLabel;
     IBOutlet UIImageView *artistImageView;
@@ -29,6 +30,7 @@
 
 @property (nonatomic, retain) NSArray *performanceList;
 
+@property (nonatomic, retain) IBOutlet UIView *shadow;
 @property (nonatomic, retain) IBOutlet UIView *artistDetailView;
 @property (nonatomic, retain) IBOutlet UILabel *artistDetailNameLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *artistImageView;

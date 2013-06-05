@@ -15,7 +15,7 @@
 @end
 
 @implementation DetailsViewController
-@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView;
+@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView, shadow;
 
 -(IBAction)hideArtistDetails:(id)sender {
 
@@ -23,6 +23,7 @@
     [UIView setAnimationDuration:0.5];
     [UIView setAnimationDelegate:self];
     
+    shadow.alpha = 0.0;
     artistDetailView.alpha = 0.0;
     artistDetailButton.alpha = 0.0;
     
@@ -35,10 +36,19 @@
     if ( [animID isEqualToString:@"fadeOutDetails"] ) {
         artistDetailView.hidden = YES;
         artistDetailButton.hidden = YES;
+        shadow.hidden = YES;
+        
     }
 }
 
-- (void) fadeInDetails {
+- (void) showDetails {
+    
+    shadow.hidden = NO;
+    artistDetailView.hidden = NO;
+    artistDetailButton.hidden = NO;
+    artistDetailView.alpha = 0.0;
+    artistDetailButton.alpha = 0.0;
+    shadow.alpha = 0.0;
     
     [UIView beginAnimations:@"fadeInDetails" context:NULL];
     [UIView setAnimationDuration:0.5];
@@ -46,19 +56,9 @@
     
     artistDetailView.alpha = 1.0;
     artistDetailButton.alpha = 1.0;
+    shadow.alpha = 1.0;
     
     [UIView commitAnimations];
-    
-}
-
-
-- (void) showDetails {
-    
-    artistDetailView.hidden = NO;
-    artistDetailButton.hidden = NO;
-    
-    [self performSelectorInBackground:@selector(fadeInDetails) withObject:nil];
-
     
 }
 
@@ -194,6 +194,7 @@
     
     artistDetailButton.hidden = YES;
     artistDetailView.hidden = YES;
+    shadow.hidden = YES;
     
     // Do any additional setup after loading the view from its nib.
     self.performanceTableView.separatorColor = [UIColor darkGrayColor];
@@ -316,17 +317,20 @@
     [cell addSubview:artistGenreLabel];
     
     if([currentArtist objectForKey:@"image_url"] != [NSNull null]){
-        UIImageView *artistImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
+        UIImageView *artistThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
         //Lazy Load
         
-        NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:[currentArtist objectForKey:@"image_url"], @"image_url", cell, @"cell", artistImageView, @"artistImageView", nil];
+        NSDictionary *imageData = [NSDictionary dictionaryWithObjectsAndKeys:[currentArtist objectForKey:@"image_url"], @"image_url", cell, @"cell", artistThumbView, @"artistImageView", nil];
         
         [self performSelectorInBackground:@selector(loadArtistImage:) withObject:imageData];
         
     }
     else{
-        UIImageView *artistImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"artistDefault"]];
-        [cell addSubview:artistImageView];
+        UIImageView *artistThumbView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 90, 60)];
+        artistThumbView.contentMode = UIViewContentModeScaleAspectFit;
+        [artistThumbView setImage:[UIImage imageNamed:@"artistDefault"]];
+        
+        [cell addSubview:artistThumbView];
     }
     
 
@@ -372,10 +376,16 @@
 
 - (void)getArtistDetailImage:(NSDictionary *)imageData {
     
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[imageData objectForKey:@"image_url"]]];
     UIImageView *imageView = (UIImageView *)[imageData objectForKey:@"imageView"];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    if([imageData objectForKey:@"image_url"] != [NSNull null]){
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[imageData objectForKey:@"image_url"]]];
     [imageView setImage:[UIImage imageWithData:data]];
+    }  else{
+        
+    [imageView setImage:[UIImage imageNamed:@"artistDefault"]];
+    }
     
 }
 
