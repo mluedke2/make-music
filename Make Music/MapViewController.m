@@ -199,6 +199,7 @@
     // filter out the relevant venues based on the chosen genre
     NSMutableArray *makingTheGenreFilteredVenueList = [NSMutableArray array];
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+ //   genreFilteredVenues = relevantVenues;
     genreFilteredVenues = appDelegate.venueList;
     
     for (int i = 0; i < appDelegate.performanceList.count; i++) {
@@ -238,6 +239,7 @@
     NSMutableSet * set = [NSMutableSet setWithArray:genreFilteredVenues];
     [set intersectSet:[NSSet setWithArray:makingTheGenreFilteredVenueList]];
     genreFilteredVenues = [set allObjects];
+    relevantVenues = genreFilteredVenues;
     
 }
 

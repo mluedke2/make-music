@@ -28,9 +28,14 @@
     
     UIView *filterView;
     
+    NSArray *genreFilteredPerformances;
+    NSArray *relevantPerformance;
+    
 }
 
 @property (nonatomic, retain) NSArray *performanceList;
+@property (nonatomic, retain) NSArray *genreFilteredPerformances;
+@property (nonatomic, retain) NSArray *relevantPerformance;
 
 @property (nonatomic, retain) UIView *filterView;
 

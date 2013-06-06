@@ -15,7 +15,7 @@
 @end
 
 @implementation DetailsViewController
-@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView, shadow, filterView;
+@synthesize venueNameLabel, venueAddressLabel, performanceTableView, performanceList, adImage, artistDescLabel, artistImageView, artistDetailNameLabel, artistDetailButton, artistDetailView, shadow, filterView, genreFilteredPerformances, relevantPerformance;
 
 -(IBAction)hideArtistDetails:(id)sender {
 
@@ -275,6 +275,7 @@
     NSLog(@"appDelegate.genreFilter: %@", appDelegate.genreFilter);
     NSLog(@"appDelegate.searchFilte: %@", appDelegate.searchFilter);
     
+    /*
     // remove subviews
     [self.filterView.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
     
@@ -330,6 +331,8 @@
         
         // also, filter the table contents!
     }
+     
+     */
     
     // custom back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -387,8 +390,6 @@
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSLog(@"getPerformanceList");
-    
     // put together the performance list!
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"venue_id = %@", [appDelegate.currentVenue objectForKey:@"id"]];
     performanceList = [appDelegate.performanceList filteredArrayUsingPredicate:pred];
@@ -401,6 +402,10 @@
     
     venueAddressLabel.text = [appDelegate.currentVenue objectForKey:@"address"];
     
+  //  [self filterCells];
+    
+  //  [self searchCells];
+    
     [performanceTableView reloadData];
 }
 
@@ -408,6 +413,87 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+# pragma mark filter cells
+
+- (void)filterCells {
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSMutableArray *makingTheFilteredPerformances = [NSMutableArray array];
+    
+    for (int i = 0; i < performanceList.count; i++) {
+        
+        NSString *artist_id = [[performanceList objectAtIndex:i] objectForKey:@"artist_id"];
+        
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"id = %@", artist_id];
+        
+        // get the artist data
+        
+        NSDictionary *artistData = [[appDelegate.artistList filteredArrayUsingPredicate:pred] lastObject];
+        
+        NSArray *thisArtistsGenres = [[artistData objectForKey:@"genres"] componentsSeparatedByString:@","];
+        
+        if ([thisArtistsGenres containsObject:appDelegate.genreFilter] || [appDelegate.genreFilter isEqualToString:@"All"]) {
+            
+            NSLog(@"in genre! %@", appDelegate.genreFilter);
+            
+            // this performance is in genre!
+            [makingTheFilteredPerformances addObject:[performanceList objectAtIndex:i]];
+            
+        }
+        
+    }
+    
+    genreFilteredPerformances = makingTheFilteredPerformances;
+    relevantPerformance = genreFilteredPerformances;
+    
+    [performanceTableView reloadData];
+}
+
+-(void)searchCells {
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.searchFilter.length == 0){
+        //do something saying you need more to search
+    }
+    else{
+        NSMutableArray *searchFilteredVenues = [NSMutableArray array];
+        AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        
+        for (int i = 0; i < relevantPerformance.count; i++) {
+            
+            NSString *artist_id = [[relevantPerformance objectAtIndex:i] objectForKey:@"artist_id"];
+            
+            NSPredicate *pred = [NSPredicate predicateWithFormat:@"id = %@", artist_id];
+            
+            NSDictionary *artistData = [[appDelegate.artistList filteredArrayUsingPredicate:pred] lastObject];
+            
+            NSString *thisArtistName = [artistData objectForKey:@"groupname"];
+            
+            if([thisArtistName rangeOfString:appDelegate.searchFilter options:NSCaseInsensitiveSearch].location == NSNotFound) {
+                //the artist in this performance doesn't match
+            }
+            else {
+            
+                // match found!
+                [searchFilteredVenues addObject:[relevantPerformance objectAtIndex:i]];
+            
+            }
+            
+        }
+        
+        NSMutableSet * set = [NSMutableSet setWithArray:searchFilteredVenues];
+        relevantPerformance = [set allObjects];
+        //        [set intersectSet:[NSSet setWithArray:searchFilteredVenues]];
+        //        genreFilteredVenues = [set allObjects];
+        [performanceTableView reloadData];
+        
+         }
+
+    
+    
 }
 
 # pragma mark tableview methods
@@ -419,8 +505,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-   // AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     return performanceList.count;
+ //   return relevantPerformance.count;
     
 }
 
@@ -439,6 +525,7 @@
     
     // get the artist data
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"id = %@", [[performanceList objectAtIndex:indexPath.row] objectForKey:@"artist_id"]];
+ //   NSPredicate *pred = [NSPredicate predicateWithFormat:@"id = %@", [[relevantPerformance objectAtIndex:indexPath.row] objectForKey:@"artist_id"]];
     NSDictionary *currentArtist = [[appDelegate.artistList filteredArrayUsingPredicate:pred] lastObject];
         
     UILabel *artistNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 10, 180, 40)];

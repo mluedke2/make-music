@@ -8,20 +8,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Make Music/MapViewController.m"
-         timestampString = "392116753.246187"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "504"
-         endingLineNumber = "504"
-         landmarkName = "-loadMapDot:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Make Music/MapViewController.m"
-         timestampString = "392116753.246187"
+         timestampString = "392176524.14963"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "506"
@@ -34,7 +21,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Make Music/MapViewController.m"
-         timestampString = "392116753.246187"
+         timestampString = "392176524.14963"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "508"
@@ -47,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Make Music/MapViewController.m"
-         timestampString = "392116753.246187"
+         timestampString = "392176524.14963"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "509"
-         endingLineNumber = "509"
+         startingLineNumber = "510"
+         endingLineNumber = "510"
          landmarkName = "-loadMapDot:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,11 +47,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Make Music/MapViewController.m"
-         timestampString = "392116753.246187"
+         timestampString = "392176524.14963"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "521"
-         endingLineNumber = "521"
+         startingLineNumber = "511"
+         endingLineNumber = "511"
+         landmarkName = "-loadMapDot:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Make Music/MapViewController.m"
+         timestampString = "392176524.14963"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "523"
+         endingLineNumber = "523"
          landmarkName = "-loadMapDot:"
          landmarkType = "5">
       </FileBreakpoint>
