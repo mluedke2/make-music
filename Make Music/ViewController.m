@@ -11,6 +11,7 @@
 #import "PerformanceListGetter.h"
 #import "DataGetter.h"
 #import "MapViewController.h"
+#import "GAI.h"
 
 @interface ViewController ()
 
@@ -25,6 +26,13 @@
 	[super viewWillAppear:YES];
     progressHolder.hidden = YES;
     [progressShower setProgress:0.0 animated:YES];
+    
+    // track!
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"ui_screen"
+                        withAction:@"view"
+                         withLabel:@"main"
+                         withValue:[NSNumber numberWithInt:0]];
 
 }
 

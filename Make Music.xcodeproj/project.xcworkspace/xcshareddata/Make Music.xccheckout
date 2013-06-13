@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DE8D7169-5DE0-45C3-9592-BF33612D0021</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Make Music</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9D2D849C-85B6-477F-A9A7-7D8D564622A9</key>
+		<string>https://github.com/mfenchel/MakeMusicNorthAmerica.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Make Music.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9D2D849C-85B6-477F-A9A7-7D8D564622A9</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/mfenchel/MakeMusicNorthAmerica.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9D2D849C-85B6-477F-A9A7-7D8D564622A9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9D2D849C-85B6-477F-A9A7-7D8D564622A9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Make Music 2</string>
+		</dict>
+	</array>
+</dict>
+</plist>

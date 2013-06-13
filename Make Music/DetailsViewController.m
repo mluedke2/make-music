@@ -9,6 +9,7 @@
 #import "DetailsViewController.h"
 #import "AppDelegate.h"
 #import "PerformanceCell.h"
+#import "GAI.h"
 
 @interface DetailsViewController ()
 
@@ -59,6 +60,15 @@
     shadow.alpha = 1.0;
     
     [UIView commitAnimations];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    // track!
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"ui_screen"
+                        withAction:@"artist"
+                         withLabel:@"ios"
+                         withValue:[appDelegate.currentLocation objectForKey:@"id"]];
     
 }
 
@@ -361,6 +371,15 @@
     
     // initialize the timer
 	timer = [NSTimer scheduledTimerWithTimeInterval:(30.0) target:self selector:@selector(loadAdImage) userInfo:nil repeats:YES];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    // track!
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"ui_screen"
+                        withAction:@"venue"
+                         withLabel:@"ios"
+                         withValue:[appDelegate.currentLocation objectForKey:@"id"]];
     
 }
 

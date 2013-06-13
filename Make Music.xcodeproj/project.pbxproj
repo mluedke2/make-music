@@ -45,6 +45,9 @@
 		FA17E3921742E2280089A52F /* PerformanceListGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA17E3911742E2280089A52F /* PerformanceListGetter.m */; };
 		FA25FA73175C551900107E0C /* easy_button.png in Resources */ = {isa = PBXBuildFile; fileRef = FA25FA72175C551900107E0C /* easy_button.png */; };
 		FA25FA8D175C767A00107E0C /* greenbox.png in Resources */ = {isa = PBXBuildFile; fileRef = FA25FA8C175C767A00107E0C /* greenbox.png */; };
+		FA6EFB18176952A800A5D771 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6EFB16176952A800A5D771 /* libGoogleAnalytics.a */; };
+		FA6EFB1B176952E300A5D771 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6EFB1A176952E300A5D771 /* CoreData.framework */; };
+		FA6EFB1D176952ED00A5D771 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6EFB1C176952ED00A5D771 /* SystemConfiguration.framework */; };
 		FA7F26FF1742DA8400B82B97 /* DataGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7F26FE1742DA8400B82B97 /* DataGetter.m */; };
 		FA8A190F175EEB08000E25CD /* artistDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = FA8A190E175EEB08000E25CD /* artistDefault.png */; };
 		FA8A1911175EFE1B000E25CD /* light_gray_box.png in Resources */ = {isa = PBXBuildFile; fileRef = FA8A1910175EFE1B000E25CD /* light_gray_box.png */; };
@@ -127,6 +130,14 @@
 		FA17E3911742E2280089A52F /* PerformanceListGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformanceListGetter.m; sourceTree = "<group>"; };
 		FA25FA72175C551900107E0C /* easy_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = easy_button.png; sourceTree = "<group>"; };
 		FA25FA8C175C767A00107E0C /* greenbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenbox.png; sourceTree = "<group>"; };
+		FA6EFB11176952A800A5D771 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		FA6EFB12176952A800A5D771 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		FA6EFB13176952A800A5D771 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		FA6EFB14176952A800A5D771 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
+		FA6EFB15176952A800A5D771 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
+		FA6EFB16176952A800A5D771 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		FA6EFB1A176952E300A5D771 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FA6EFB1C176952ED00A5D771 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FA7F26FD1742DA8400B82B97 /* DataGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataGetter.h; sourceTree = "<group>"; };
 		FA7F26FE1742DA8400B82B97 /* DataGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataGetter.m; sourceTree = "<group>"; };
 		FA8A190E175EEB08000E25CD /* artistDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = artistDefault.png; sourceTree = "<group>"; };
@@ -155,12 +166,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA6EFB1D176952ED00A5D771 /* SystemConfiguration.framework in Frameworks */,
+				FA6EFB1B176952E300A5D771 /* CoreData.framework in Frameworks */,
 				FACEDF89174418C100D42F47 /* CoreLocation.framework in Frameworks */,
 				FAC5567817433B7C00715ADD /* MessageUI.framework in Frameworks */,
 				FAC5566C174324BD00715ADD /* MapKit.framework in Frameworks */,
 				FA0BF5FB17299DA600397BCE /* UIKit.framework in Frameworks */,
 				FA0BF5FD17299DA600397BCE /* Foundation.framework in Frameworks */,
 				FA0BF5FF17299DA600397BCE /* CoreGraphics.framework in Frameworks */,
+				FA6EFB18176952A800A5D771 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +184,7 @@
 		FA0BF5EE17299DA600397BCE = {
 			isa = PBXGroup;
 			children = (
+				FA6EFB10176952A800A5D771 /* Google Analytics */,
 				FA17E3701742DE700089A52F /* JSON Classes */,
 				FA0BF60017299DA600397BCE /* Make Music */,
 				FA0BF5F917299DA600397BCE /* Frameworks */,
@@ -188,6 +203,8 @@
 		FA0BF5F917299DA600397BCE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA6EFB1C176952ED00A5D771 /* SystemConfiguration.framework */,
+				FA6EFB1A176952E300A5D771 /* CoreData.framework */,
 				FACEDF88174418C100D42F47 /* CoreLocation.framework */,
 				FAC5567717433B7C00715ADD /* MessageUI.framework */,
 				FAC5566B174324BD00715ADD /* MapKit.framework */,
@@ -300,6 +317,20 @@
 				FA17E3851742DE700089A52F /* SBJsonWriter.m */,
 			);
 			path = "JSON Classes";
+			sourceTree = "<group>";
+		};
+		FA6EFB10176952A800A5D771 /* Google Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				FA6EFB11176952A800A5D771 /* GAI.h */,
+				FA6EFB12176952A800A5D771 /* GAITrackedViewController.h */,
+				FA6EFB13176952A800A5D771 /* GAITracker.h */,
+				FA6EFB14176952A800A5D771 /* GAITransaction.h */,
+				FA6EFB15176952A800A5D771 /* GAITransactionItem.h */,
+				FA6EFB16176952A800A5D771 /* libGoogleAnalytics.a */,
+			);
+			name = "Google Analytics";
+			path = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -512,6 +543,10 @@
 				GCC_PREFIX_HEADER = "Make Music/Make Music-Prefix.pch";
 				INFOPLIST_FILE = "Make Music/Make Music-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Library\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -528,6 +563,10 @@
 				GCC_PREFIX_HEADER = "Make Music/Make Music-Prefix.pch";
 				INFOPLIST_FILE = "Make Music/Make Music-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Library\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

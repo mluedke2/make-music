@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "LocationAnnotation.h"
 #import "DetailsViewController.h"
+#import "GAI.h"
 
 @interface MapViewController ()
 
@@ -36,6 +37,13 @@
     self.artistNameSearchBar.text = appDelegate.searchFilter;
     
  //   [self performSelector:@selector(startSpinner) withObject:nil];
+    
+    // track!
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"ui_screen"
+                        withAction:@"view"
+                         withLabel:@"city"
+                         withValue:[appDelegate.currentLocation objectForKey:@"id"]];
     
 }
 

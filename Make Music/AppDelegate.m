@@ -9,12 +9,24 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "MapViewController.h"
+#import "GAI.h"
 
 @implementation AppDelegate
 @synthesize locationList, venueList, currentLocation, currentVenue, genreFilter, performanceList, artistList, nibAddOn, relevantPerformanceList, searchFilter;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // begin GoogleA.
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    // Optional: set debug to YES for extra debugging information.
+    [GAI sharedInstance].debug = YES;
+    // Create tracker instance.
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-41658101-2"];
+    // end GoogleA.
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
@@ -28,16 +40,6 @@
     
     NSLog(@"venues count: %i", self.venueList.count);
     
-    /*
-    if (self.venueList.count > 0) {
-        // move on to the navigation controller
-        
-        MapViewController *mapViewController = [[MapViewController alloc] initWithNibName:[NSString stringWithFormat:@"MapViewController%@", self.nibAddOn] bundle:nil];
-        
-        [navigator pushViewController:mapViewController animated:NO];
-        
-    }
-     */
 
     [self.window makeKeyAndVisible];
     return YES;
